@@ -1,27 +1,26 @@
 package SolutionPackage;
 import java.util.*;
-public class Leetcode205 {
-        public boolean isIsomorphic(String s, String t) {
-            if (s==null && t==null) return true;
-            if (s.length() != t.length()) return false;
-
-            HashMap<Character,Character> map1 = new HashMap<>();
-            HashMap<Character,Character> map2 = new HashMap<>();
-            for(int i=0;i<s.length();i++) {
-                char x = s.charAt(i);
-                char y = t.charAt(i);
-                if (map1.containsKey(x) && map1.get(x) != y) return false;
-                if (map2.containsKey(y) && map2.get(y) != x) return false;
-                if (!map1.containsKey(x)) map1.put(x,y);
-                if (!map2.containsKey(y)) map2.put(y,x);
+public class Leetcode209 {
+    public int minSubArrayLen(int s, int[] nums) {
+        // to find the contiguous length, we need two positions
+        int l=0,sum=0, result=Integer.MAX_VALUE;
+        for(int i=0;i<nums.length;i++) {
+            sum += nums[i];
+            if (sum >= s) {
+                result=Math.min(result,i-l+1);
+                while (sum >=s && l<i) {
+                    sum -= nums[l];
+                    l--;
+                }
             }
-            return true;
         }
+        return (result==Integer.MAX_VALUE)?0:result;
+    }
 
         public static void main(String[] args) {
-            Leetcode205 solution = new Leetcode205();
-            String s="ad";
-            String t="aa";
-            System.out.println(solution.isIsomorphic(s,t));
+            Leetcode209 solution = new Leetcode209();
+            int s=7;
+            int[] nums=[2,3,1,1,3,3]
+            System.out.println(solution.minSubArrayLen(s,nums));
     }
 }
